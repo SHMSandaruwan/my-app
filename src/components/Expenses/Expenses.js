@@ -1,18 +1,28 @@
-import ExpenseItem from "./ExpenseItems";
+import React,{useState} from 'react';
+import ExpenseItem from "./ExpensesItems";
+import ExpensesFilter from "./ExpensesFilter"
 import Card from '../UI/Card';
 import './Expenses.css';
 
 function Expenses(props) {
-    let expenses = props.expenses;
-    return (
-        // get form friend 
+    let item = props.item;
+
+    const [filteredYear, setfilteredYear] = useState(2020);
+
+    const saveExpensesFilterHandler = (selectedYear) => {
+        setfilteredYear(selectedYear);
+    }
+
+    return (              
+        // {/* get form friend  */}
         <Card className="expenses">
-            {expenses.map((expense) => {
+            <ExpensesFilter selected={filteredYear} onSaveExpensesFilter = {saveExpensesFilterHandler}/>
+            {item.map((item) => {
                 return (
                     <ExpenseItem
-                        title={expense.title}
-                        amount={expense.amount}
-                        date={expense.date}
+                        title={item.title}
+                        amount={item.amount}
+                        date={item.date}
                     />
                 );
             })}
@@ -40,6 +50,5 @@ function Expenses(props) {
       // />
       // </div>
     );
-}
-
+};
 export default Expenses;
