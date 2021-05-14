@@ -1,32 +1,44 @@
 import React,{useState} from 'react';
-import ExpenseItem from "./ExpensesItems";
-import ExpensesFilter from "./ExpensesFilter"
+import ExpensesFilter from "./ExpensesFilter";
+import ExpensesList from "./ExpensesList";
+import ExpensesChart from "./ExpensesChart";
 import Card from '../UI/Card';
 import './Expenses.css';
 
-function Expenses(props) {
+const Expenses = (props) => {
     let item = props.item;
 
     const [filteredYear, setfilteredYear] = useState(2020);
 
     const saveExpensesFilterHandler = (selectedYear) => {
         setfilteredYear(selectedYear);
-    }
+    };
+
+    const filteredExpenses = item.filter(Expense => {
+        return Expense.date.getFullYear().toString() === filteredYear;
+    });
 
     return (              
-        // {/* get form friend  */}
-        <Card className="expenses">
-            <ExpensesFilter selected={filteredYear} onSaveExpensesFilter = {saveExpensesFilterHandler}/>
-            {item.map((item) => {
-                return (
-                    <ExpenseItem
-                        title={item.title}
-                        amount={item.amount}
-                        date={item.date}
-                    />
-                );
-            })}
-        </Card>
+        //  get form friend
+            <Card className="expenses">
+                <ExpensesFilter selected={filteredYear} onSaveExpensesFilter={saveExpensesFilterHandler}/>
+                <ExpensesChart expenses={filteredExpenses}/>
+                <ExpensesList item={filteredExpenses}/>
+                {/* {filteredExpenses.length === 0 ? (
+                    <p>No Expenses found...</p>
+                ):(
+                    filteredExpenses.map((item) => 
+                    (
+                        <ExpenseItem    
+                            key={item.id}
+                            title={item.title}
+                            amount={item.amount}
+                            date={item.date}
+                        />
+                    )
+                ))} */}
+            
+            </Card>
       // <div className = 'expenses'>
       // <ExpenseItme
       //     title={props.expenses[0].title}
